@@ -1,5 +1,5 @@
-﻿using AmigoSecretoAPI.Data.Dto;
-using AmigoSecretoAPI.Services;
+﻿using AmigoSecreto.domain.Entidades;
+using AmigoSecreto.services.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,27 +7,27 @@ namespace AmigoSecretoAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GruposController : ControllerBase
+    public class AmigoSecretoController : ControllerBase
     {
-        private readonly GrupoService _service;
+        private readonly AmigoSecretoServices _service;
 
-        public GruposController(GrupoService service)
+        public AmigoSecretoController(AmigoSecretoServices service)
         {
             _service = service;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CriarGrupo([FromBody] string nome)
+        [HttpPost("groups")]
+        public async Task<ActionResult<Group>> CreateGroup([FromBody] Group group)
         {
-            var grupo = await _service.CriarGrupoAsync(nome);
-            return CreatedAtAction(nameof(CriarGrupo), new { id = grupo.Id }, grupo);
+            var createdGroup = await _service.CreateGroup(group);
+            return CreatedAtAction(nameof(CreateGroup), new { Id = createdGroup.Id }, createdGroup);
         }
 
-        [HttpPost("{idGrupo}/participantes")]
-        public async Task<IActionResult> AdicionarParticipante(int idGrupo, [FromBody] ParticipanteDto participante)
+
+        [HttpPost("groups/{groupId}/participantes")]
+        public async Task<ActionResult<Participante>> AddParticipante(int groupId, [FromBody] Participante participante)
         {
-            await _service.AdicionarParticipanteAsync(idGrupo, participante);
-            return NoContent();
+            var part
         }
 
         [HttpPost("{idGrupo}/matches")]

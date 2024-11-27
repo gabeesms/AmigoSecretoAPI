@@ -14,7 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
 
-builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<GrupoRepository>();
